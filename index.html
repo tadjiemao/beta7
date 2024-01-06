@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel = "icon" type = "image/png" href = "f1_i.png">
+  <title>[FORMULA 1] HISTORIA</title>
+  <style>
+  
+    body {
+      font-family: Arial, serif; /* 设置页面使用 Arial 字体 */
+      display: flex; /* 使用 Flex 布局 */
+      justify-content: center; /* 水平居中 */
+      align-items: center; /* 垂直居中 */
+      height: 100vh; /* 设置页面高度为视窗高度的 100% */
+      margin: 0; /* 移除默认边距 */
+   /* background-image: url("music_fondo.jpg");
+	  background-size: cover;
+      background-repeat: no-repeat;
+      background-position: right; */
+	  overflow-Y: hidden; /* 隐藏垂直滚动条 */
+    }
+
+    @media only screen and (max-width: 980px) {
+	  body {
+        background-image: url("fondo.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: left;
+	  }
+	  
+	  #video-background {
+        display: none;
+      }
+    }
+	
+    #video-background {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1000;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   /* gap: 20px; */ /* 布局中项目之间的间隔 */
+    }
+	
+    .text-box {
+      width: 313px;
+      height: 612px;
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+	  overflow-y: auto; /* 添加垂直滚动条 */
+	  border: 5px solid #F5F5F5;
+	  border-radius: 10px;
+	  padding: 20px;
+    }
+	
+	.text-box p {
+	  cursor: pointer;
+	  font-family: Georgia, serif; /* Serif 字体具有在字母末端带有额外装饰或笔画的特征 */
+	}
+	
+    .text-box p:hover {
+      color: #008B8B;
+    }
+	
+	.text-box .f1_h {
+	  width: auto;
+	  height: 308px;
+	  cursor: pointer;
+	}
+	
+    .text-box .f1_h:hover {
+      transform: scale(0.9); /* 缩小图片 */
+    }
+
+    .player {
+      text-align: center; /* 文字居中 */
+   /* background: linear-gradient(to bottom, black, white); */ /* 渐变色 */
+      background-color: rgba(255, 255, 255, 0.8); /* 设置背景颜色为白色, 透明度为0.7 (1: 不透明; 0:透明)*/
+      padding: 40px; /* 设置内边距 */
+      border-radius: 10px; /* 设置边框圆角 */
+      box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5);
+	  /*
+	  添加阴影效果:
+	  ·第一个参数（水平偏移量）是阴影水平偏移的距离。正数代表右偏移，负数代表左偏移。
+      ·第二个参数（垂直偏移量）是阴影垂直偏移的距离。正数代表向下偏移，负数代表向上偏移。
+      ·第三个参数（模糊半径）是阴影的模糊程度。值越大，阴影越模糊。为 0 时阴影不模糊。
+      ·第四个参数（阴影颜色）是阴影的颜色。
+	  */
+	  height: 572px;
+	  width: 510px;
+   /* backdrop-filter: blur(2px); /* 背景模糊处理 */
+      border: 5px solid #F5F5F5;
+    }
+
+    .album-cover {
+      width: 320px; /* 设置专辑封面宽度 */
+      height: 320px; /* 设置专辑封面高度 */
+      border-radius: 50%; /* 设置圆形边框 */
+      margin-bottom: 20px; /* 设置下边距 */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+	  position: relative;
+	  z-index: 1;
+    }
+	
+	.album-cover-base {
+      width: 350px; /* 设置专辑封面宽度 */
+      height: 350px; /* 设置专辑封面高度 */
+      border-radius: 50%; /* 设置圆形边框 */
+      margin-bottom: 20px; /* 设置下边距 */
+	  background-color: grey;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+	  position: relative;
+	  top: -359px;
+	  z-index: 0;
+    }
+
+    .controls {
+      display: flex; /* 使用 Flex 布局 */
+      justify-content: center; /* 水平居中 */
+      gap: 20px; /* 设置按钮间距 */
+      margin-top: 20px; /* 设置上边距 */
+	  position: relative;
+	  top: -360px;
+    }
+
+    .controls button {
+      padding: 12px 24px; /* 设置按钮内边距 */
+      font-size: 16px; /* 设置按钮文字大小 */
+      cursor: pointer; /* 设置指针样式为手型 */
+      border: none; /* 移除边框 */
+      background-color: #696969; /* 设置按钮背景颜色 */
+      color: white; /* 设置文字颜色 */
+      border-radius: 5px; /* 设置边框圆角 */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+      transition: background-color 0.3s ease-in-out, transform 0.2s; /* 添加过渡效果 */
+    }
+
+    .controls button:hover { /* 设置鼠标悬停时按钮的样式 */
+      background-color: #DC143C; /* 设置鼠标悬停时按钮背景颜色 */
+      transform: translateY(-2px); /* 添加向上移动的动画效果 */
+    }
+
+    .controls button:active { /* 添加按钮点击时的动画效果 */
+      box-shadow: none; /* 移除按钮阴影 */
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg); /* 设置初始旋转角度为0度 */
+      }
+      to {
+        transform: rotate(360deg); /* 设置最终旋转角度为360度 */
+      }
+    }
+
+    label {
+	  position: relative;
+	  top: -360px;	
+	}
+
+    .song-name {
+      font-size: 24px;
+      margin-top: 10px;
+	  font-family: Georgia, serif;
+	  visibility: hidden; /* 隐藏元素, 但占据空间 */
+	  position: relative;
+	  top: -360px;
+    }
+	
+	.progress {
+      width: 80%;
+      height: 10px;
+      background-color: #ccc;
+      border-radius: 5px;
+      margin: 20px auto;
+      overflow: hidden;
+	  visibility: hidden;
+	  transform: translateY(-17px);
+	  position: relative;
+	  top: -360px;
+	  border: 3px groove black;
+    }
+	
+    .progress:hover {
+      background-color: #DCDCDC; /* 设置鼠标悬停时按钮背景颜色 */
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background-color: #696969;
+    }
+	
+    .playlist {
+      margin-top: 20px; /* 设置上边距 */
+    }
+
+    .playlist select {
+      padding: 10px; /* 设置选择框内边距 */
+      font-size: 16px; /* 设置选择框文字大小 */
+      border-radius: 5px; /* 设置选择框边框圆角 */
+	  background-color: #F5F5F5;
+	  color: black;
+	  position: relative;
+	  top: -360px;
+    }
+	
+	.time-display {
+      display: flex;
+      justify-content: space-between; /* 在主轴上将项目等距分布，使得首个项目位于容器的起始位置，最后一个项目位于容器的末尾位置，同时剩余项目之间平均分布，产生相等的空白间距。 */
+      margin-top: 5px;
+	  visibility: hidden;
+	  position: relative;
+	  top: -360px;
+    }
+
+    .time-display span {
+      font-size: 12px;
+      color: black;
+	  padding: 2px;
+	  border: 3px groove black;
+	  border-radius: 7px;
+	  background-color: #DCDCDC;
+	  transform: translateY(22px); /* 向下位移 */
+    }
+
+    .hamburger-menu {
+      display: flex;
+      flex-direction: column;
+	  /* justify-content: space-between;
+	  项目在容器中按照两端对齐的方式排列，项目之间的间隔会平均分布，
+	  使得第一个项目位于容器的起始位置，最后一个项目位于容器的结束位置，
+	  中间的项目之间的间隔会被均匀地分布。 */
+      justify-content: space-between;
+      width: 30px;
+      height: 20px;
+      cursor: pointer;
+      z-index: 999;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+    }
+
+    .line {
+      width: 100%;
+      height: 3px;
+      background-color: #ccc;
+	  /* 这段 CSS 代码是用于创建 CSS 属性 transform 的过渡效果。
+	  0.3s 指定了过渡的持续时间为 0.3 秒。
+	  这表示当元素的 transform 属性发生变化时，变化的过程会在 0.3 秒内完成。
+	  ease 是过渡效果的时间曲线，它指定了变化速度的规律。
+	  ease 表示在过渡开始和结束时速度较慢，中间时速度较快。 */
+      transition: transform 0.3s ease;
+    }
+
+    nav {
+	  border-radius: 5%;
+      display: none; /* 用于不占据空间地隐藏元素 */
+      position: fixed;
+      top: 60px;
+      left: 15px;
+      background-color: rgba(255, 255, 255, 0.8);
+	  border: 8px solid rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	  text-align: center;
+    }
+
+    /* 菜单 (<nav>) 元素最初的状态是 display: none;，即不显示。
+	当点击汉堡菜单图标后，通过 JavaScript 中的 toggleMenu() 函数为菜单元素添加了 open 类。
+    而在 CSS 中，.open 是指选择具有 open 类的 nav 元素，并将其 display 设置为 block，
+	这样菜单就会显示出来。 */
+    nav.open {
+      display: block;
+    }
+
+    nav a {
+	  font-family: Aria, serif;
+      display: block;
+      margin-bottom: 5px;
+      padding: 5px; /* 用于设置元素内容区域与其边框之间的间距 */
+	  /* 通常，链接文本默认会带有下划线以表示其可点击性 */
+      text-decoration: none; /* 用于移除链接（<a> 标签）的下划线效果 */
+      color: #333;
+      border-bottom: 1px solid #696969;
+    }
+
+    nav a:last-child { /* 选择 <nav> 元素中的最后一个 <a> 子元素 */
+	  margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    nav a:hover {
+      color: #B22222;
+	  transform: translateY(-2px);
+    }
+
+  </style>
+</head>
+
+<body>
+ <div class="container">
+   <div class="text-box">
+   <p>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp*Historia  · · · · · · <br><br><br><br>
+　　Preguntador：<br><br>&nbsp&nbsp&nbsp&nbsp¡Cuéntame la historia de Formula 1 en cuatro partes!<br><br><br>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspChatGPT: <br><br>&nbsp&nbsp&nbsp&nbsp¡Por supuesto! La historia de la Fórmula 1 se puede dividir en cuatro partes principales:<br>
+    -------------------------------------------------<br>
+	<img class="f1_h" src="f1_h.jpg" alt="f1_h">
+	-------------------------------------------------<br>
+　　&nbsp1. Inicios y Fundación: 
+    <br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLa Fórmula 1 tuvo sus orígenes en la década de 1950, con la primera carrera oficial del Campeonato Mundial de Fórmula 1 celebrada en Silverstone, Inglaterra, en 1950. En estos primeros años, equipos legendarios como Ferrari, Mercedes-Benz y Alfa Romeo dominaron la competición.<br><br>
+    <br>
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp2. La Época Dorada y Leyendas:  
+    <br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDurante las décadas de 1960 y 1970, la Fórmula 1 vio surgir a grandes leyendas como Juan Manuel Fangio, Jim Clark, Jackie Stewart, Niki Lauda y Ayrton Senna. Hubo avances tecnológicos notables, y la rivalidad entre escuderías como Ferrari, McLaren, Lotus y Williams fue intensa.<br><br>
+	<br>
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp3. Cambio y Dominio:
+    <br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLa introducción de la tecnología aerodinámica, el desarrollo de la seguridad y la rivalidad entre pilotos como Alain Prost y Ayrton Senna marcaron los años 80 y 90. Michael Schumacher emergió como un piloto dominante, logrando múltiples campeonatos.<br><br>
+	<br>
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp4. Evolución y Modernidad:
+    <br><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspEn el nuevo milenio, la Fórmula 1 vio un cambio significativo en las regulaciones, el diseño de autos y la introducción de nuevas normativas para aumentar la seguridad y la competencia. Pilotos como Lewis Hamilton y Sebastian Vettel han llevado la competición a nuevos niveles, compitiendo en equipos como Mercedes, Red Bull y Ferrari.<br><br>
+	<br>
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspA lo largo de estas etapas, la Fórmula 1 ha sido testigo de emocionantes batallas en la pista, innovaciones tecnológicas, tragedias, cambios en las reglas y un constante deseo de superación en la búsqueda de la excelencia en el deporte del automovilismo.
+	</p>
+  </div>
+  <div class="player">
+    <div>
+    <img class="album-cover" src="f1.jpg" alt="Album Cover">
+  	<div><img class="album-cover-base" src="marco.png" alt="Album Cover Base"></div></div>
+    <audio id="audio"></audio>
+	<div class="song-name" id="songName"></div> <!-- 添加显示歌曲名称的元素 -->
+	
+	<div class="time-display" id="timeDisplay">
+      <span class="current-time">0:00</span>
+      <span class="total-time">0:00</span>
+    </div>	
+	
+    <video id="video-background" autoplay muted loop playsinline> <!-- 这个视频元素的属性设置了自动播放 (autoplay)，静音 (muted)，循环播放 (loop)，以及内联播放 (playsinline) -->
+      <source src="fondo_video.mp4" type="video/mp4">
+    </video>	
+	
+    <div class="progress" id="progressContainer">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="controls">
+      <button onclick="previousSong()">ANTERIOR</button>
+      <button id= "rORp" onclick="playPauseMusic()">REPRODUCIR</button>
+      <button onclick="stopMusic()">PARAR</button>
+      <button onclick="nextSong()">SIGUIENTE</button>
+    </div>
+	
+	<!-- 
+	value: 值
+	for: 相关联
+	label: 描述
+  	-->
+    <div class="playlist">
+      <label for="songList">LISTA：</label>
+      <select id="songList" onchange="changeSong()">
+        <option value="0">1.Inicios y Fundación</option>
+        <option value="1">2.La Época Dorada y Leyendas</option>
+        <option value="2">3.Cambio y Dominio</option>
+        <option value="3">4.Evolución y Modernidad</option>
+		<option value="4">5.Conclusión</option>
+      </select>
+    </div>
+  </div>
+ </div>
+  
+  <div class="hamburger-menu" onclick="toggleMenu()">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+
+  <nav id="menu">
+    <!-- 
+	  这段代码是一个超链接 <a>，它用于创建指向网页或网站的链接。
+	  比如说，href属性指定了链接的目标网址为 https://www.google.com，
+	  target="_blank"部分是一个属性，用于指示链接在新的浏览器窗口或标签页中打开。
+	-->
+	<a href="PONER EL ENLACE DE LA PORTADA EN AQUÍ" target="_blank">INICIO</a>
+    <a href="https://es.wikipedia.org/wiki/F%C3%B3rmula_1#Historia" target="_blank">WIKI</a>
+    <a href="https://www.1001juegos.com/juego/super-star-car" target="_blank">JUEGO</a>
+  </nav>
+  
+  <audio id="background-Music" loop> <!-- 背景音乐。-->
+    <source src="backgroundMusic.mp3" type="audio/mp3">
+  </audio>
+  
+  <script>
+  
+    const audio = document.getElementById('audio');
+    const albumCover = document.querySelector('.album-cover');
+    const songNameElement = document.getElementById('songName');
+	const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progressContainer');
+    let isPlaying = false;
+    let currentSong = 0; // 用于跟踪当前播放的歌曲在歌曲列表中的位置或索引. 初始化为 0 的目的是指定默认情况下播放的是歌曲列表中的第一首歌曲
+    const songs = ['music1.mp3', 'music2.mp3', 'music3.mp3', 'music4.mp3', 'music5.mp3'];
+    const songNames = ['1.Inicios y Fundación', '2.La Época Dorada y Leyendas', '3.Cambio y Dominio', '4.Evolución y Modernidad', '5.Conclusión'];
+	const reproducirORpausar = document.getElementById('rORp');
+
+ // window.onload = function() { // 背景音乐:
+ //  // 等待页面加载完成后执行的任务:
+ //  const BGM = new Audio('backgroundMusic.mp3'); // 创建了一个新的音频对象 BGM，并将其初始化为指定文件 'backgroundMusic.mp3'。
+ //  // new Audio是JavaScript中创建Audio对象的语法，所以Audio这个关键词不能改变。
+ //  BGM.loop = true; // 当设置为 true 时，音频将会无限循环播放，直到手动停止播放或者页面关闭。
+ //  BGM.play();
+ // }; // (不知道为什么没有效果.....)
+
+    function loadSong() { // 音乐资源加载:
+      audio.src = songs[currentSong]; // 将 <audio> 元素的音频源设置为 songs 数组中 currentSong 索引位置的音频文件路径
+      updateSongName(); // 更新歌曲名称显示
+    }
+
+    function hideProgress() { // 隐藏进度条:
+      const progressContainer = document.getElementById('progressContainer');
+      progressContainer.style.visibility = 'hidden'; // 隐藏进度条
+    }
+
+    function showProgress() { // 显示进度条:
+      const progressContainer = document.getElementById('progressContainer');
+      progressContainer.style.visibility = 'visible'; // 显示进度条
+    }
+
+    function playMusic() { // 播放音乐:
+      audio.play();
+      albumCover.style.animation = 'rotate 8s linear infinite';
+      isPlaying = true;
+	  showProgress();
+	  songNameElement.style.visibility = 'visible';
+	  showTimeDisplay();
+	  reproducirORpausar.textContent = 'PAUSAR';
+	  
+	  const BGM = document.getElementById('background-Music'); // 获取背景音乐元素
+      BGM.play();
+    }
+
+    function pauseMusic() { //暂停按钮:
+      audio.pause();
+      albumCover.style.animationPlayState = 'paused';
+      isPlaying = false;
+	  reproducirORpausar.textContent = 'REPRODUCIR';
+    }
+
+    function stopMusic() { // 停止按钮:
+      audio.pause();
+      audio.currentTime = 0;
+      albumCover.style.animation = '';
+      isPlaying = false;
+	  hideProgress();
+	  songNameElement.style.visibility = 'hidden';
+	  hideTimeDisplay();
+   // 下方: 点击停止按钮后重置播放歌曲为第一首, 这样再点击播放时播放的就会是第一首
+   // currentSong = 0;
+   // loadSong()
+      reproducirORpausar.textContent = 'REPRODUCIR';
+    }
+
+    function playPauseMusic() { // 播放/停止按钮:
+      if (isPlaying==true) {
+        pauseMusic(); // 如果音乐正在播放，则暂停音乐
+      } else if (isPlaying==false) {
+        playMusic(); // 否则播放音乐
+      }
+    }
+
+    function endToNextSong() { // 歌曲结束自动跳换下一首:
+	  if (currentSong === songs.length - 1) {
+        // 如果当前歌曲是列表中的最后一首，则停止音乐:
+        stopMusic();
+		currentSong = 0; // 将歌曲索引重新返回到第一首音频:
+		loadSong();
+      } else { // 如果当前歌曲不是列表中的最后一首, 则执行:
+      currentSong = (currentSong + 1) % songs.length; // (ej:(0+1)/11=>resto"余"=1=第二首)
+      loadSong();
+      playMusic();
+      albumCover.style.animation = '';
+	  }
+	}
+
+    function nextSong() { // 下一首按钮:
+	if (isPlaying==true) {
+      currentSong = (currentSong + 1) % songs.length; // (ej:(0+1)/11=>resto"余"=1=第二首)
+      loadSong();
+      playMusic();
+      albumCover.style.animation = '';
+      }
+	}
+
+    function previousSong() { // 上一首按钮:
+	if (isPlaying==true){
+      currentSong = (currentSong - 1 + songs.length) % songs.length; // (ej:((0-1)+11)/11=>resto"余"=10=第十一首)
+      loadSong();
+      playMusic();
+      albumCover.style.animation = '';
+      }
+	}
+
+    function updateSongName() { // 歌名展示:
+      songNameElement.textContent = songNames[currentSong];
+    }
+
+    audio.addEventListener('ended', () => { // 当音频播放完成时，会执行:
+      albumCover.style.animation = ''; // 将专辑封面的动画效果置为空，即停止旋转动画;
+      isPlaying = false; // 表示音频已停止播放;
+      endToNextSong(); // 自动播放下一首歌曲.
+    });
+
+    audio.addEventListener('play', () => { // 保证当音频播放时, playMusic()函数会被执行. () 是用作事件监听器的函数体, 这里没有传递任何参数给这个函数，因此 () 中没有参数
+      playMusic();
+    });
+
+    loadSong(); // 用于初始化页面时加载第一首歌曲
+	
+    function changeSong() { // 手动更换歌曲:
+      const songList = document.getElementById('songList');
+      currentSong = parseInt(songList.value); // 获取选择的歌曲索引值. parseInt()是用于解析字符串并返回整数的函数
+      loadSong(); // 加载选择的歌曲
+      playMusic(); // 播放选择的歌曲
+	  albumCover.style.animation = '';
+    }
+
+    // 这段代码的作用是允许用户通过鼠标点击和拖动进度条来调整音频的播放进度:
+    progressContainer.addEventListener('mousedown', (e) => { // 当用户在进度条上按下鼠标按钮时触发
+	// (e) 表示事件处理函数的参数，指向鼠标事件对象: (e) 作为事件对象，被用来获取鼠标点击时的坐标信息 (e.clientX, e.clientY) 以及与进度条相关的信息
+      const width = progressContainer.clientWidth; // 捕获进度条的宽度，用以后续计算鼠标点击位置相对于进度条的比例
+      const clickX = e.clientX - progressContainer.getBoundingClientRect().left; // 计算鼠标点击位置相对于进度条左边界的横向距离 (获取鼠标点击位置相对于进度条容器左边界的水平偏移量)
+      const duration = audio.duration; // 获取音频的总时长
+      const currentTime = (clickX / width) * duration; // 计算了当前音频播放的时间，根据鼠标点击位置在进度条上的比例与总时长的乘积
+  
+      audio.currentTime = currentTime; // 将音频的当前播放时间设置为点击位置对应的时间
+
+      document.onmousemove = (e) => { // 当用户在元素上拖动鼠标时，会触发 mousemove 事件，此时指定的事件处理程序将会被调用:
+        const moveX = e.clientX - progressContainer.getBoundingClientRect().left; // 计算鼠标移动后的位置相对于进度条左边界的横向距离(水平偏移量)
+        const newTime = (moveX / width) * duration; // 根据鼠标移动后的位置计算新的音频播放时间
+    
+        if (newTime >= 0 && newTime <= duration) { // 检查新的播放时间是否在合法范围内（0 到总时长之间），
+          audio.currentTime = newTime; // 如果是，则将音频的当前播放时间设置为新的时间
+        }
+      };
+    });
+
+    document.addEventListener('mouseup', () => { // 当鼠标在元素上释放时，
+      document.onmousemove = null; // 将取消之前设置的鼠标移动事件（mousemove事件）的监听器, 移除鼠标移动事件的处理程序
+    });
+
+    audio.addEventListener('timeupdate', () => { // 监视音频播放的进度变化
+      const progress = (audio.currentTime / audio.duration) * 100; // 计算当前音频播放时间位置相对于总时长的百分比，用于更新进度条的显示
+      progressBar.style.width = `${progress}%`; // 根据计算得到的进度百分比，更新了进度条的宽度，以展示当前音频的播放进度
+
+      const currentTime = formatTime(audio.currentTime); // 获取了当前音频的播放时间，并使用 formatTime 函数格式化为可读的时间格式
+      const totalTime = formatTime(audio.duration); // 获取了音频的总时长，并使用 formatTime 函数格式化为可读的时间格式
+
+      const currentTimeDisplay = document.querySelector('.time-display .current-time'); // 使用 document.querySelector 方法选择了具有类名为 time-display 的元素下的类名为 current-time 的元素
+      const totalTimeDisplay = document.querySelector('.time-display .total-time'); // 使用 document.querySelector 方法选择了具有类名为 time-display 的元素下的类名为 total-time 的元素
+
+      currentTimeDisplay.textContent = currentTime; // 将格式化后的 当前播放时间 更新到 HTML 元素中，显示当前播放时间
+      totalTimeDisplay.textContent = totalTime; // 将格式化后的 总播放时长 更新到 HTML 元素中，显示总播放时间
+    });
+
+    function formatTime(seconds) { // 将以秒为单位的时间转换为 分:秒 的格式，以便更好地显示时间
+      const minutes = Math.floor(seconds / 60); // 计算出输入秒数对应的分钟数。Math.floor 方法将除法运算得到的分钟数向下取整
+      const remainingSeconds = Math.floor(seconds % 60); // 计算出剩余的秒数，即除去整数分钟部分后剩余的秒数
+      const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds; // 将剩余的秒数格式化为两位数的字符串，若剩余秒数小于 10，则在数字前添加一个 '0'，以保证显示格式的一致性
+	  // 这段代码的意思是：如果 remainingSeconds 小于 10，即剩余的秒数小于 10 秒，
+	  // 则 formattedSeconds 的值将会是 0 加上 remainingSeconds。
+	  // 如果 remainingSeconds 大于等于 10 秒，则 formattedSeconds 的值将直接等于 remainingSeconds。
+	  // 它由三个部分组成：
+	  // 1. 第一个部分是条件（remainingSeconds < 10）。
+	  // 2. 第二个部分是 ? 之前的表达式（0${remainingSeconds}），表示如果条件为真时的结果。
+	  // 3. 第三个部分是 : 之后的表达式（remainingSeconds），表示如果条件为假时的结果。
+      return `${minutes}:${formattedSeconds}`; // 将格式化后的分钟数和剩余秒数组合成 分钟:秒 的格式，并作为函数的返回值返回
+    }
+	
+    function showTimeDisplay() { // 显示时间显示:
+      const timeDisplay = document.getElementById('timeDisplay');
+      timeDisplay.style.visibility = 'visible'; // 显示时间显示元素
+    }
+	
+    function hideTimeDisplay() { // 隐藏时间显示:
+      const timeDisplay = document.getElementById('timeDisplay');
+      timeDisplay.style.visibility = 'hidden'; // 隐藏时间显示元素
+    }
+
+    function toggleMenu() { // 菜单:
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('open');
+	  // classList.toggle('open') 是 JavaScript 中用于切换元素类名的方法。
+	  // 在这个例子中，它的作用是在菜单元素的类列表中添加或移除 open 类。
+	  // 如果菜单元素没有 open 类，则添加这个类；如果已经有了 open 类，则移除它。
+	  // 这种行为可以通过切换类名来控制菜单的显示和隐藏。
+	  
+      const lines = document.querySelectorAll('.line'); // 变量 lines = 所有具有 .line 类的 HTML 元素
+      // index 表示 .line 元素在 lines 这个集合中的位置序号，
+	  // 从零开始递增，依次表示每个被选中的元素的位置。
+	  lines.forEach((line, index) => {
+        if (menu.classList.contains('open')) { // 如果菜单是打开的（即包含 open 类）
+          if (index === 0) {
+		  	// rotate(-45deg) 沿顺时针方向旋转 45 度
+		    // translateY(-11px) 沿 Y 轴方向平移 11 像素
+            line.style.transform = 'rotate(45deg) translateY(11px)';
+          } else if (index === 1) {
+            line.style.opacity = '0';
+          } else if (index === 2) {
+            line.style.transform = 'rotate(-45deg) translateY(-11px)';
+          }
+        } else {
+          line.style.transform = 'none';
+          line.style.opacity = '1';
+        }
+      });
+    }
+	
+  </script>
+</body>
+
+</html>
